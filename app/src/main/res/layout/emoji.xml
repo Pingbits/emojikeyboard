@@ -10,7 +10,7 @@
         android:layout_height="wrap_content" />
 
     <it.sephiroth.android.library.widget.HListView
-        android:id="@+id/tabs"
+        android:id="@+id/titleTabs"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:padding="2dp"

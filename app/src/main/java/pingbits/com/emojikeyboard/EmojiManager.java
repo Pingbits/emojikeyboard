@@ -37,15 +37,12 @@ public class EmojiManager {
         sEmojisMap.put(0x1f63e, R.drawable.p1f63e);
     }
 
-    private static int getEmojiResource(Context context, int codePoint) {
+    private static int getEmojiResource(int codePoint) {
         return sEmojisMap.get(codePoint);
-    }
-    public static void addEmojis(Context context, Spannable text, int emojiSize) {
-        addEmojis(context, text, emojiSize, 0, -1);
     }
 
     /**
-     * Convert emoji characters of the given Spannable to the according emojicon.
+     * Convert emoji characters of the given Spannable accordingly
      *
      * @param context
      * @param text
@@ -58,20 +55,12 @@ public class EmojiManager {
         int textLengthToProcessMax = textLength - index;
         int textLengthToProcess = length < 0 || length >= textLengthToProcessMax ? textLength : (length+index);
 
-        // remove spans throughout all text
-        EmojiSpan[] oldSpans = text.getSpans(0, textLength, EmojiSpan.class);
-        for (int i = 0; i < oldSpans.length; i++) {
-            text.removeSpan(oldSpans[i]);
-        }
-
         int skip;
         for (int i = index; i < textLengthToProcess; i += skip) {
             int icon = 0;
-            char c = text.charAt(i);
-
             int unicode = Character.codePointAt(text, i);
             skip = Character.charCount(unicode);
-                icon = getEmojiResource(context, unicode);
+                icon = getEmojiResource(unicode);
 
             if (icon > 0) {
                 text.setSpan(new EmojiSpan(context, icon, emojiSize), i, i + skip, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);

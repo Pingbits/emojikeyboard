@@ -6,7 +6,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import pingbits.com.emojikeyboard.objects.Emoji;
 
@@ -18,14 +17,15 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Button b = (Button)findViewById(R.id.openPop);
-        TextView tv = (TextView)findViewById(R.id.textemojis);
+        Button up = (Button)findViewById(R.id.update);
+        final EmojiTextView tv = (EmojiTextView)findViewById(R.id.emojitext);
         final EmojiEditText et = (EmojiEditText)findViewById(R.id.emojiedit);
         final EmojiPopup popup = new EmojiPopup(this,findViewById(R.id.root));
         popup.setOnEmojiClickedListener(new EmojiGridView.OnEmojiClickedListener() {
             @Override
             public void onEmojiconClicked(Emoji emoji) {
-                et.append(emoji.emoji);
-                et.append(" ");
+
+            et.getText().insert(et.getSelectionStart(),emoji.emoji);
             }
         });
 
@@ -33,6 +33,13 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 popup.showAtBottom();
+            }
+        });
+        up.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tv.setText(et.getText().toString());
+                popup.dismiss();
             }
         });
     }

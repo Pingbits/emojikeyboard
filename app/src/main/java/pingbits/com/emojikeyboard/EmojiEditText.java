@@ -33,6 +33,6 @@ public class EmojiEditText extends EditText{
 
     @Override
     protected void onTextChanged(CharSequence text, int start, int lengthBefore, int lengthAfter) {
-        EmojiManager.addEmojis(getContext(), getText(), mEmojiconSize);
+        EmojiManager.addEmojis(getContext(), getText(), mEmojiconSize,start,lengthAfter);
     }
 }

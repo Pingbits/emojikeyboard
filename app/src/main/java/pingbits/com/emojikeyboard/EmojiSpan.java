@@ -1,7 +1,6 @@
 package pingbits.com.emojikeyboard;
 
 import android.content.Context;
-import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.text.style.ImageSpan;
@@ -28,7 +27,6 @@ public class EmojiSpan extends ImageSpan {
         if (mDrawable == null) {
             try {
                 mDrawable = super.getDrawable();
-//                mDrawable = mContext.getResources().getDrawable(mResourceId);
                 int size = mSize;
                 mDrawable.setBounds(0, 0, size, size);
 
@@ -46,14 +44,4 @@ public class EmojiSpan extends ImageSpan {
         size += (2 * 2);
         return size;
     }
-
-    @Override
-    public void draw(Canvas canvas, CharSequence text,
-                     int start, int end, float x,
-                     int top, int y, int bottom, Paint paint) {
-        // adding the padding to the transformation so it will be padding on both sides
-        super.draw(canvas, text, start, end, x, top, y, bottom, paint);
-    }
-
-
 }

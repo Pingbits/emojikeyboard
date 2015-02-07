@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
 
 import pingbits.com.emojikeyboard.adapter.EmojiAdapter;
@@ -16,28 +17,24 @@ import pingbits.com.emojikeyboard.objects.EmojisData;
 public class EmojiGridView {
 
     private final EmojiPopup mEmojiconPopup;
-    private final View rootView;
+    public final View rootView;
     private final Emoji[] mData;
 
-    public EmojiconGridView(Context context, EmojiconRecents recents, EmojiPopup emojiconPopup) {
+    public EmojiGridView(Context context, EmojiPopup emojiconPopup) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         mEmojiconPopup = emojiconPopup;
         rootView = inflater.inflate(R.layout.emoji_grid, null);
-       // setRecents(recents);
         GridView gridView = (GridView) rootView.findViewById(R.id.emoji_gridView);
         mData = EmojisData.DATA;
 
-        EmojiAdapter mAdapter = new EmojiAdapter(rootView.getContext(), mData);
-        mAdapter.setEmojiClickListener(new OnEmojiClickedListener() {
-
+        EmojiAdapter mAdapter = new EmojiAdapter(context, mData);
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onEmojiconClicked(Emoji emoji) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
                 if (mEmojiconPopup.onEmojiClickedListener != null) {
-                    mEmojiconPopup.onEmojiClickedListener.onEmojiconClicked(emoji);
+                    mEmojiconPopup.onEmojiClickedListener.onEmojiconClicked(mData[position]);
                 }
-                /*if (mRecents != null) {
-                    mRecents.addRecentEmoji(rootView.getContext(), emoji);
-                }*/
             }
         });
         gridView.setAdapter(mAdapter);

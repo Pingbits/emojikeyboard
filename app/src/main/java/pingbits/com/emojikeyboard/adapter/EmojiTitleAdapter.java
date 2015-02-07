@@ -7,27 +7,27 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
-import pingbits.com.emojikeyboard.EmojiManager;
+import java.util.List;
+
 import pingbits.com.emojikeyboard.R;
-import pingbits.com.emojikeyboard.objects.Emoji;
 
 /**
- * Created by aagam on 6/2/15.
+ * Created by aagam on 7/2/15.
  */
-public class EmojiAdapter extends BaseAdapter {
-
-    public LayoutInflater inflater;
+public class EmojiTitleAdapter extends BaseAdapter {
     public Context ctx;
-    public Emoji[] emojis;
-    public EmojiAdapter(Context context, Emoji[] mData) {
+    public List<Integer> icons;
+    public LayoutInflater inflater;
+
+    public EmojiTitleAdapter(Context context, List<Integer> icons){
         ctx = context;
+        this.icons = icons;
         inflater = LayoutInflater.from(ctx);
-        emojis = mData;
     }
 
     @Override
     public int getCount() {
-        return emojis.length;
+        return 5;
     }
 
     @Override
@@ -37,27 +37,30 @@ public class EmojiAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
-        if(convertView == null){
-            convertView = inflater.inflate(R.layout.item_emoji_grid,null,false);
+        if(convertView==null){
+            convertView = inflater.inflate(R.layout.item_emoji_title,null,false);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         } else{
             holder = (ViewHolder)convertView.getTag();
         }
-        holder.emojiIcon.setImageResource(EmojiManager.sEmojisMap.get(emojis[position].codepoint));
+
+        holder.title_tab.setImageResource(R.drawable.ic_backspace_white_24dp);
+
         return convertView;
     }
 
     public static class ViewHolder{
-        public ImageView emojiIcon;
-        public ViewHolder(View view){
-            emojiIcon = (ImageView)view.findViewById(R.id.emoji_icon);
+        public ImageView title_tab;
+        public ViewHolder(View v){
+            title_tab = (ImageView)v.findViewById(R.id.emoji_title);
         }
+
     }
 }

@@ -5,10 +5,12 @@ package pingbits.com.emojikeyboard.objects;
  */
 public class Emoji {
 
-    private String emoji;
+    public String emoji;
+    public int codepoint;
     public static Emoji fromCodePoint(int codePoint) {
         Emoji emoji = new Emoji();
         emoji.emoji = newString(codePoint);
+        emoji.codepoint = codePoint;
         return emoji;
     }
 
@@ -18,5 +20,9 @@ public class Emoji {
         } else {
             return new String(Character.toChars(codePoint));
         }
+    }
+
+    public static int intFromCodePoint(String emojiValue){
+        return Integer.parseInt(emojiValue);
     }
 }

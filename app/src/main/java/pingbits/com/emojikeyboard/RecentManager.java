@@ -28,8 +28,8 @@ public class RecentManager {
             StringTokenizer tokenizer = new StringTokenizer(str, ",");
             while (tokenizer.hasMoreTokens()) {
                 try {
-                    Emoji emoji = new Emoji();
-                    emoji.emoji = tokenizer.nextToken();
+                    String s = tokenizer.nextToken();
+                    Emoji emoji = Emoji.fromCodePoint(Integer.parseInt(s));
                     emojis.add(emoji);
                 }
                 catch (NumberFormatException e) {
@@ -69,12 +69,12 @@ public class RecentManager {
 
         int size = emojis.size();
         for (int i = 0; i < size; i++) {
-            str.append(emojis.get(i).emoji);
+            str.append(emojis.get(i).codepoint);
             if (i < (size - 1)) {
                 str.append(',');
             }
         }
 
-        sp.edit().putString("prefs", str.toString()).commit();
+        sp.edit().putString("prefs", str.toString()).apply();
     }
 }

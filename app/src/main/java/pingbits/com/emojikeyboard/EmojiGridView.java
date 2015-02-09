@@ -38,7 +38,6 @@ public class EmojiGridView {
             default:
                 setEmoji();
         }
-
     }
 
     private void setRecents() {
@@ -47,9 +46,8 @@ public class EmojiGridView {
         rootView = inflater.inflate(R.layout.emoji_grid, null);
 
         gridView = (GridView) rootView.findViewById(R.id.emoji_gridView);
-//        mData = EmojisData.DATA;
         recentManager = new RecentManager(context);
-
+        mData = recentManager.getRecents();
         mAdapter = new EmojiAdapter(context, recentManager.getRecents());
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -69,7 +67,6 @@ public class EmojiGridView {
             mData = recentManager.addEmoji(emoji);
             mAdapter = new EmojiAdapter(context, mData);
             gridView.setAdapter(mAdapter);
-
         }
 
     }

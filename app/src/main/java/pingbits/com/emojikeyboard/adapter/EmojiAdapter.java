@@ -32,12 +32,12 @@ public class EmojiAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return emojis[position];
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     @Override

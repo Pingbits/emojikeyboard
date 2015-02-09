@@ -14,6 +14,15 @@ public class Emoji {
         return emoji;
     }
 
+    public Emoji(String emoji){
+        codepoint = intFromCodePoint(emoji);
+        this.emoji = emoji;
+    }
+
+    public Emoji(){
+
+    }
+
     public static final String newString(int codePoint) {
         if (Character.charCount(codePoint) == 1) {
             return String.valueOf(codePoint);

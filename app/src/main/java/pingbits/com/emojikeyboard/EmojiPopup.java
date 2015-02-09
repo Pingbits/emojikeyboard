@@ -68,14 +68,14 @@ public class EmojiPopup extends PopupWindow {
         emojiTitleAdapter.setClickListener(new EmojiTitleAdapter.OnItemClickedListener() {
             @Override
             public void onItemClicked(int position) {
-                pager.setCurrentItem(position,true);
+                pager.setCurrentItem(position, true);
             }
         });
         backspace = (ImageView)view.findViewById(R.id.backspace);
 
 
         //Get Sticker counts + recent + emoji
-        List<EmojiGridView> emojiGridViewList = new ArrayList<>();
+        final List<EmojiGridView> emojiGridViewList = new ArrayList<>();
 
         for (int i = 0; i < 5; i++) {
             emojiGridViewList.add(new EmojiGridView(mContext,this));
@@ -84,6 +84,23 @@ public class EmojiPopup extends PopupWindow {
         pager = (ViewPager)view.findViewById(R.id.pager);
         pagerAdapter = new EmojisPagerAdapter(emojiGridViewList);
         pager.setAdapter(pagerAdapter);
+        pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                emojiTitleAdapter.isActive=position;
+                emojiTitleAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         return view;
     }

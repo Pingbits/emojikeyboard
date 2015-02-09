@@ -1,6 +1,7 @@
 package pingbits.com.emojikeyboard.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ public class EmojiTitleAdapter extends BaseAdapter {
     public List<Integer> icons;
     public LayoutInflater inflater;
     public OnItemClickedListener listener;
+    public int isActive=0;
 
     public EmojiTitleAdapter(Context context, List<Integer> icons){
         ctx = context;
@@ -58,10 +60,17 @@ public class EmojiTitleAdapter extends BaseAdapter {
         holder.title_tab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                isActive=position;
                 listener.onItemClicked(position);
+                notifyDataSetChanged();
             }
         });
 
+        if(isActive ==position){
+            convertView.setBackgroundColor(Color.BLACK);
+        } else{
+            convertView.setBackgroundColor(Color.parseColor("#327b7b7b"));
+        }
         switch (position){
             case 0:
                 holder.title_tab.setImageResource(R.drawable.ic_schedule_white_24dp);

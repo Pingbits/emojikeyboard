@@ -11,16 +11,17 @@
 
     <it.sephiroth.android.library.widget.HListView
         android:id="@+id/titleTabs"
+        android:background="#327b7b7b"
         android:layout_width="fill_parent"
         android:layout_height="36dp"
-        android:layout_alignParentBottom="true"
-         />
+        android:layout_alignParentBottom="true" />
 
     <ImageView
         android:src="@drawable/ic_backspace_white_24dp"
         android:id="@+id/backspace"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:padding="2dp"
+        android:layout_width="36dp"
+        android:layout_height="36dp" />
 </RelativeLayout>

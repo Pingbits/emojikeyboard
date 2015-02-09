@@ -20,7 +20,6 @@ import android.widget.PopupWindow;
 import java.util.ArrayList;
 import java.util.List;
 
-import it.sephiroth.android.library.widget.AdapterView;
 import it.sephiroth.android.library.widget.HListView;
 import pingbits.com.emojikeyboard.adapter.EmojiTitleAdapter;
 
@@ -56,7 +55,7 @@ public class EmojiPopup extends PopupWindow {
         this.screenWidth = screenSize[0];
         this.screenHeight = screenSize[1];
         //default height
-        setSize(screenWidth,(int) mContext.getResources().getDimension(R.dimen.keyboard_height));
+        setSize(screenWidth, (int) mContext.getResources().getDimension(R.dimen.keyboard_height));
         setBackgroundDrawable(new ColorDrawable(Color.BLACK));
     }
 
@@ -66,10 +65,10 @@ public class EmojiPopup extends PopupWindow {
         titleList = (HListView)view.findViewById(R.id.titleTabs);
         emojiTitleAdapter = new EmojiTitleAdapter(mContext,null);
         titleList.setAdapter(emojiTitleAdapter);
-        titleList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        emojiTitleAdapter.setClickListener(new EmojiTitleAdapter.OnItemClickedListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                pager.setCurrentItem(i,true);
+            public void onItemClicked(int position) {
+                pager.setCurrentItem(position,true);
             }
         });
         backspace = (ImageView)view.findViewById(R.id.backspace);

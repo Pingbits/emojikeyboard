@@ -18,11 +18,16 @@ public class EmojiTitleAdapter extends BaseAdapter {
     public Context ctx;
     public List<Integer> icons;
     public LayoutInflater inflater;
+    public OnItemClickedListener listener;
 
     public EmojiTitleAdapter(Context context, List<Integer> icons){
         ctx = context;
         this.icons = icons;
         inflater = LayoutInflater.from(ctx);
+    }
+
+    public void setClickListener(OnItemClickedListener listener){
+        this.listener = listener;
     }
 
     @Override
@@ -41,7 +46,7 @@ public class EmojiTitleAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if(convertView==null){
             convertView = inflater.inflate(R.layout.item_emoji_title,null,false);
@@ -50,8 +55,24 @@ public class EmojiTitleAdapter extends BaseAdapter {
         } else{
             holder = (ViewHolder)convertView.getTag();
         }
+        holder.title_tab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onItemClicked(position);
+            }
+        });
 
-        holder.title_tab.setImageResource(R.drawable.ic_backspace_white_24dp);
+        switch (position){
+            case 0:
+                holder.title_tab.setImageResource(R.drawable.ic_schedule_white_24dp);
+                break;
+            case 1:
+                holder.title_tab.setImageResource(R.drawable.ic_mood_white_24dp);
+                break;
+            default:
+                holder.title_tab.setImageResource(R.drawable.ic_backspace_white_24dp);
+
+        }
 
         return convertView;
     }
@@ -62,5 +83,9 @@ public class EmojiTitleAdapter extends BaseAdapter {
             title_tab = (ImageView)v.findViewById(R.id.emoji_title);
         }
 
+    }
+
+    public interface OnItemClickedListener{
+        public void onItemClicked(int position);
     }
 }

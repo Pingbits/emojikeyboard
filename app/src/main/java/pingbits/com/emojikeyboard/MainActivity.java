@@ -30,7 +30,7 @@ public class MainActivity extends ActionBarActivity {
             public void onEmojiconClicked(Emoji emoji) {
 
                 if(et.getSelectionStart()==et.getSelectionEnd())
-                    et.getText().insert(et.getSelectionStart(),emoji.emoji);
+                    et.getText().insert(et.getSelectionStart()==-1?0:et.getSelectionStart(),emoji.emoji);
                 else{
                     et.getText().replace(et.getSelectionStart(),et.getSelectionEnd(),emoji.emoji);
                 }

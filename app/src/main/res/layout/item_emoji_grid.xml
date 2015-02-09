@@ -5,7 +5,7 @@
 <ImageView
     android:id="@+id/emoji_icon"
     android:padding="2dp"
-    android:scaleType="fitXY"
+
     android:layout_width="36dp"
     android:layout_height="36dp" />
 </LinearLayout>

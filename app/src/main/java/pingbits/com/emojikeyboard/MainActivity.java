@@ -1,7 +1,9 @@
 package pingbits.com.emojikeyboard;
 
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,7 +22,9 @@ public class MainActivity extends ActionBarActivity {
         Button up = (Button)findViewById(R.id.update);
         final EmojiTextView tv = (EmojiTextView)findViewById(R.id.emojitext);
         final EmojiEditText et = (EmojiEditText)findViewById(R.id.emojiedit);
-        final EmojiPopup popup = new EmojiPopup(this,findViewById(R.id.root));
+        final EmojiPopup popup = new EmojiPopup(this,findViewById(R.id.root),getScreenSize());
+
+        popup.setSizeForSoftKeyboard();
         popup.setOnEmojiClickedListener(new EmojiGridView.OnEmojiClickedListener() {
             @Override
             public void onEmojiconClicked(Emoji emoji) {
@@ -42,6 +46,37 @@ public class MainActivity extends ActionBarActivity {
                 popup.dismiss();
             }
         });
+
+        popup.setOnSoftKeyboardOpenCloseListener(new EmojiPopup.OnSoftKeyboardOpenCloseListener() {
+
+            @Override
+            public void onKeyboardOpen(int keyBoardHeight) {
+
+            }
+
+            @Override
+            public void onKeyboardClose() {
+                if(popup.isShowing())
+                    popup.dismiss();
+            }
+        });
+    }
+
+    private int[] getScreenSize() {
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        int[] arr = new int[2];
+        if (android.os.Build.VERSION.SDK_INT >= 13){
+            display.getSize(size);
+            arr[0] = size.x;
+            arr[1] = size.y;
+            return arr;
+        }
+        else{
+            arr[0] = display.getWidth();
+            arr[1] = display.getHeight();
+            return arr;
+        }
     }
 
 

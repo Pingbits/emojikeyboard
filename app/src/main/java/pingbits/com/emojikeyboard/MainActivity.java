@@ -29,7 +29,11 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onEmojiconClicked(Emoji emoji) {
 
-            et.getText().insert(et.getSelectionStart(),emoji.emoji);
+                if(et.getSelectionStart()==et.getSelectionEnd())
+                    et.getText().insert(et.getSelectionStart(),emoji.emoji);
+                else{
+                    et.getText().replace(et.getSelectionStart(),et.getSelectionEnd(),emoji.emoji);
+                }
             }
         });
 

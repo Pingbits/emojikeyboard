@@ -7,7 +7,6 @@ import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +35,8 @@ public class EmojiPopup extends PopupWindow {
     public EmojiTitleAdapter emojiTitleAdapter;
     public EmojisPagerAdapter pagerAdapter;
     public View rootView;
+    public List<EmojiGridView> emojiGridViewList;
+    public EmojiGridView recents;
 
     private int keyBoardHeight = 0;
     private Boolean pendingOpen = false;
@@ -75,11 +76,12 @@ public class EmojiPopup extends PopupWindow {
 
 
         //Get Sticker counts + recent + emoji
-        final List<EmojiGridView> emojiGridViewList = new ArrayList<>();
+        emojiGridViewList = new ArrayList<>();
 
         for (int i = 0; i < 5; i++) {
-            emojiGridViewList.add(new EmojiGridView(mContext,this));
+            emojiGridViewList.add(new EmojiGridView(mContext,this,i));
         }
+        recents = emojiGridViewList.get(0);
 
         pager = (ViewPager)view.findViewById(R.id.pager);
         pagerAdapter = new EmojisPagerAdapter(emojiGridViewList);
@@ -146,7 +148,6 @@ public class EmojiPopup extends PopupWindow {
                 }
                 if (heightDifference > 100) {
                     keyBoardHeight = heightDifference;
-                    Log.e("heightKB", "" + keyBoardHeight);
 
                     setSize(WindowManager.LayoutParams.MATCH_PARENT, keyBoardHeight);
                     if(isOpened == false){
@@ -161,13 +162,22 @@ public class EmojiPopup extends PopupWindow {
                 }
                 else{
                     isOpened = false;
-                    if(onSoftKeyboardOpenCloseListener!=null)
+                    if(onSoftKeyboardOpenCloseListener!=null){
                         onSoftKeyboardOpenCloseListener.onKeyboardClose();
+
+                    }
                 }
             }
         });
     }
 
+
+    @Override
+    public void dismiss() {
+        super.dismiss();
+        recents.save();
+
+    }
 
     /**
      * Set the listener for the event when backspace on is clicked

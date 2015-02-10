@@ -37,10 +37,13 @@ public class EmojiPopup extends PopupWindow {
     public View rootView;
     public List<EmojiGridView> emojiGridViewList;
     public EmojiGridView recents;
+    public StickerManager stickerManager;
+    public List<String> stickerURL;
 
     private int keyBoardHeight = 0;
     private Boolean pendingOpen = false;
     private Boolean isOpened = false;
+
 
     public int screenHeight=0;
     public int screenWidth = 0;
@@ -75,16 +78,19 @@ public class EmojiPopup extends PopupWindow {
         backspace = (ImageView)view.findViewById(R.id.backspace);
 
 
+
         //Get Sticker counts + recent + emoji
         emojiGridViewList = new ArrayList<>();
+        setUpStickers();
 
-        for (int i = 0; i < 5; i++) {
-            emojiGridViewList.add(new EmojiGridView(mContext,this,i));
+        for (int i = 0; i < stickerURL.size()+2; i++) {
+            emojiGridViewList.add(new EmojiGridView(mContext,this,i,stickerURL));
         }
         recents = emojiGridViewList.get(0);
 
         pager = (ViewPager)view.findViewById(R.id.pager);
         pagerAdapter = new EmojisPagerAdapter(emojiGridViewList);
+        pager.setOffscreenPageLimit(1);
         pager.setAdapter(pagerAdapter);
         pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -105,6 +111,15 @@ public class EmojiPopup extends PopupWindow {
         });
 
         return view;
+    }
+
+    private void setUpStickers() {
+        stickerManager = new StickerManager(mContext);
+        stickerURL = new ArrayList<>();
+        stickerURL = stickerManager.getStickerURLs();
+        if(stickerURL.size()==0){
+            stickerURL.add("http://dl.stickershop.line.naver.jp/products/0/0/29/252/android/stickers.zip");
+        }
     }
 
     /**

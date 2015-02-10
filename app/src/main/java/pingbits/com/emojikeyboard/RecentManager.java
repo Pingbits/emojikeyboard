@@ -19,12 +19,12 @@ public class RecentManager {
 
     public SharedPreferences sp;
     public RecentManager(Context ctx){
-        sp = ctx.getSharedPreferences("recent", Context.MODE_PRIVATE);
+        sp = ctx.getSharedPreferences("emoji", Context.MODE_PRIVATE);
     }
 
     public Emoji[] getRecents(){
         emojis = new ArrayList<>();
-            String str = sp.getString("prefs", "");
+            String str = sp.getString("recent", "");
             StringTokenizer tokenizer = new StringTokenizer(str, ",");
             while (tokenizer.hasMoreTokens()) {
                 try {
@@ -75,6 +75,6 @@ public class RecentManager {
             }
         }
 
-        sp.edit().putString("prefs", str.toString()).apply();
+        sp.edit().putString("recent", str.toString()).apply();
     }
 }

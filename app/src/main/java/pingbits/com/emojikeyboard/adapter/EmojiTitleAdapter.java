@@ -69,7 +69,7 @@ public class EmojiTitleAdapter extends BaseAdapter {
         if(isActive ==position){
             convertView.setBackgroundColor(Color.BLACK);
         } else{
-            convertView.setBackgroundColor(Color.parseColor("#327b7b7b"));
+            convertView.setBackgroundColor(Color.parseColor("#ff515151"));
         }
         switch (position){
             case 0:

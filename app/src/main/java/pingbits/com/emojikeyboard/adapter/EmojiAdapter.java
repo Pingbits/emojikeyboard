@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
+import com.squareup.picasso.Picasso;
+
 import pingbits.com.emojikeyboard.EmojiManager;
 import pingbits.com.emojikeyboard.R;
 import pingbits.com.emojikeyboard.objects.Emoji;
@@ -50,7 +52,8 @@ public class EmojiAdapter extends BaseAdapter {
         } else{
             holder = (ViewHolder)convertView.getTag();
         }
-        holder.emojiIcon.setImageResource(EmojiManager.sEmojisMap.get(emojis[position].codepoint));
+//        holder.emojiIcon.setImageResource(EmojiManager.sEmojisMap.get(emojis[position].codepoint));
+        Picasso.with(ctx).load(EmojiManager.sEmojisMap.get(emojis[position].codepoint)).into(holder.emojiIcon);
         return convertView;
     }
 

@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.github.lzyzsd.circleprogress.DonutProgress;
 
@@ -211,6 +212,8 @@ public class EmojiGridView {
 
     class DownloadFileAsync extends AsyncTask<String, String, String> {
 
+        public boolean isError=false;
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -259,20 +262,27 @@ public class EmojiGridView {
                 output.flush();
                 output.close();
                 input.close();
+                Utils.unzip(newFile.getPath(),newFile.getParentFile().getPath());
             } catch (Exception e) {
+                isError = true;
                 e.printStackTrace();
             }
+
             return null;
 
         }
         protected void onProgressUpdate(String... progress) {
-            donutProgress.setProgress(Integer.parseInt(progress[0]));
+            donutProgress.setProgress(Integer.parseInt(progress[0])>3?Integer.parseInt(progress[0])-3:0);
         }
 
         @Override
         protected void onPostExecute(String unused) {
 //            donutProgress.setVisibility(View.GONE);
+
             donutProgress.setProgress(100);
+            if(isError){
+                Toast.makeText(context,"Error",Toast.LENGTH_SHORT).show();
+            }
         }
     }
 

@@ -8,6 +8,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -93,10 +96,29 @@ public class Utils {
             }
             finally {
                 zin.close();
+                File zipDelete = new File(zipFile);
+                zipDelete.delete();
             }
         }
         catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static List<String> listFilesForFolder(final File folder) {
+        List<String> allImagesIconFile = new ArrayList<>();
+        for (final File fileEntry : folder.listFiles()) {
+            String filename = fileEntry.getName();
+            if (!filename.contains("key") && !filename.contains("tab") && !filename.contains("productInfo")) {
+                allImagesIconFile.add(fileEntry.getPath());
+            }
+
+            /*if(filename.contains("key")){
+                allImagesIconFile.add(fileEntry.getPath());
+            }*/
+        }
+
+        Collections.sort(allImagesIconFile);
+        return allImagesIconFile;
     }
 }

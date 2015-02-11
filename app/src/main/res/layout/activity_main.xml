@@ -12,6 +12,10 @@
         android:id="@+id/openPop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+    <ImageView
+        android:id="@+id/stickerPreview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
     <TextView
         android:text="Hi there"
         android:id="@+id/textemojis"

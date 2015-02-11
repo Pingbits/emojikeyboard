@@ -32,6 +32,7 @@ public class EmojiPopup extends PopupWindow {
     private ImageView backspace;
     private OnBackspaceClickedListener onBackspaceClickedListener;
     public EmojiGridView.OnEmojiClickedListener onEmojiClickedListener;
+    public EmojiGridView.OnStickerClickedListener onStickerClickedListener;
     public EmojiTitleAdapter emojiTitleAdapter;
     public EmojisPagerAdapter pagerAdapter;
     public View rootView;
@@ -214,6 +215,13 @@ public class EmojiPopup extends PopupWindow {
      */
     public void setOnEmojiClickedListener(EmojiGridView.OnEmojiClickedListener listener){
         this.onEmojiClickedListener = listener;
+    }
+
+    /**
+     * Set the listener for the event when any of the sticker is clicked
+     */
+    public void setOnStickerClickedListener(EmojiGridView.OnStickerClickedListener listener){
+        this.onStickerClickedListener = listener;
     }
 
     private static class EmojisPagerAdapter extends PagerAdapter {

@@ -24,6 +24,7 @@ import java.net.URL;
 import java.util.List;
 
 import pingbits.com.emojikeyboard.adapter.EmojiAdapter;
+import pingbits.com.emojikeyboard.adapter.StickerAdapter;
 import pingbits.com.emojikeyboard.objects.Emoji;
 import pingbits.com.emojikeyboard.objects.EmojisData;
 
@@ -33,6 +34,7 @@ import pingbits.com.emojikeyboard.objects.EmojisData;
 public class EmojiGridView {
 
     private final List<String> stickerURL;
+    public List<String> stickersPath;
     private  EmojiPopup mEmojiconPopup;
     public  View rootView;
     private  Emoji[] mData;
@@ -44,7 +46,9 @@ public class EmojiGridView {
     public Emoji lastEmoji=null;
     public int position;
     public String md5;
+    public StickerAdapter stickerAdapter;
     public DonutProgress donutProgress;
+    public ImageView dowload;
 
 
     public EmojiGridView(Context context, EmojiPopup emojiconPopup, int position, List<String> stickerURL) {
@@ -132,10 +136,22 @@ public class EmojiGridView {
         rootView = inflater.inflate(R.layout.sticker_grid, null);
         donutProgress = (DonutProgress)rootView.findViewById(R.id.donut_progress);
 
+        gridView = (GridView) rootView.findViewById(R.id.emoji_gridView);
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                if (mEmojiconPopup.onStickerClickedListener != null) {
+                    mEmojiconPopup.onStickerClickedListener.onStickerClicked(stickersPath.get(position));
+                }
+//                Log.e("Sticker clicked",""+stickersPath.get(position));
+            }
+        });
 
         if(!f.isDirectory()){
             f.mkdirs();
-            final ImageView dowload = (ImageView)rootView.findViewById(R.id.download);
+            dowload= (ImageView)rootView.findViewById(R.id.download);
+            dowload.setVisibility(View.VISIBLE);
             dowload.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -145,29 +161,16 @@ public class EmojiGridView {
                             f.getPath()+"/"+position+"2.zip");
                 }
             });
+        } else{
+            setStickerInGrid(f);
         }
+    }
 
-        gridView = (GridView) rootView.findViewById(R.id.emoji_gridView);
+    private void setStickerInGrid(File f) {
+        stickersPath = Utils.listFilesForFolder(f);
+        stickerAdapter = new StickerAdapter(context,stickersPath);
+        gridView.setAdapter(stickerAdapter);
 
-
-/*        mData = EmojisData.DATA;
-
-
-
-
-        EmojiAdapter mAdapter = new EmojiAdapter(context, mData);
-
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                if (mEmojiconPopup.onEmojiClickedListener != null) {
-                    mEmojiconPopup.onEmojiClickedListener.onEmojiconClicked(mData[position]);
-                    mEmojiconPopup.recents.addToRecents(mData[position]);
-                }
-            }
-        });
-        gridView.setAdapter(mAdapter);*/
     }
 
     private void downloadSticker(File f) {
@@ -209,6 +212,9 @@ public class EmojiGridView {
         void onEmojiconClicked(Emoji emoji);
     }
 
+    public interface OnStickerClickedListener{
+        void onStickerClicked(String path);
+    }
 
     class DownloadFileAsync extends AsyncTask<String, String, String> {
 
@@ -225,7 +231,7 @@ public class EmojiGridView {
         @Override
         protected String doInBackground(String... aurl) {
             int count;
-
+            File newFile = new File(aurl[1]);
             try {
 
             //Never ever use https requests else in all devices >4.0 it won't connect
@@ -238,7 +244,7 @@ public class EmojiGridView {
 
                 int lenghtOfFile = urlConnection.getContentLength();
 
-                File newFile = new File(aurl[1]);
+                newFile = new File(aurl[1]);
                 try {
                     if(!newFile.exists())
                         newFile.createNewFile();
@@ -268,7 +274,7 @@ public class EmojiGridView {
                 e.printStackTrace();
             }
 
-            return null;
+            return isError?"":newFile.getParentFile().getPath();
 
         }
         protected void onProgressUpdate(String... progress) {
@@ -277,11 +283,14 @@ public class EmojiGridView {
 
         @Override
         protected void onPostExecute(String unused) {
-//            donutProgress.setVisibility(View.GONE);
 
             donutProgress.setProgress(100);
-            if(isError){
+            if(unused.equals("")){
                 Toast.makeText(context,"Error",Toast.LENGTH_SHORT).show();
+            } else{
+                donutProgress.setVisibility(View.GONE);
+                dowload.setVisibility(View.GONE);
+                setStickerInGrid(new File(unused));
             }
         }
     }

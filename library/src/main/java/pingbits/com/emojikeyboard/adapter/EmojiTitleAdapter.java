@@ -34,7 +34,7 @@ public class EmojiTitleAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 5;
+        return 3;
     }
 
     @Override
@@ -77,6 +77,9 @@ public class EmojiTitleAdapter extends BaseAdapter {
                 break;
             case 1:
                 holder.title_tab.setImageResource(R.drawable.ic_mood_white_24dp);
+                break;
+            case 2:
+                holder.title_tab.setImageResource(R.drawable.tab_on);
                 break;
             default:
                 holder.title_tab.setImageResource(R.drawable.ic_backspace_white_24dp);

@@ -149,13 +149,13 @@ public class EmojiGridView {
         });
 
         if(!f.isDirectory()){
-            f.mkdirs();
             dowload= (ImageView)rootView.findViewById(R.id.download);
             dowload.setVisibility(View.VISIBLE);
             dowload.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     //downloadSticker(f);
+                    f.mkdirs();
                     dowload.setVisibility(View.GONE);
                     new DownloadFileAsync().execute(stickerURL.get(position),
                             f.getPath()+"/"+position+"2.zip");

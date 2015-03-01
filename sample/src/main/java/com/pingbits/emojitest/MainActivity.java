@@ -1,4 +1,4 @@
-package pingbits.com.emojikeyboard;
+package com.pingbits.emojitest;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,6 +14,10 @@ import android.widget.ImageView;
 
 import java.io.File;
 
+import pingbits.com.emojikeyboard.EmojiEditText;
+import pingbits.com.emojikeyboard.EmojiGridView;
+import pingbits.com.emojikeyboard.EmojiPopup;
+import pingbits.com.emojikeyboard.EmojiTextView;
 import pingbits.com.emojikeyboard.objects.Emoji;
 
 
@@ -27,8 +31,19 @@ public class MainActivity extends ActionBarActivity {
         Button up = (Button)findViewById(R.id.update);
         final EmojiTextView tv = (EmojiTextView)findViewById(R.id.emojitext);
         final EmojiEditText et = (EmojiEditText)findViewById(R.id.emojiedit);
+
+
         final EmojiPopup popup = new EmojiPopup(this,findViewById(R.id.root),getScreenSize());
         final ImageView preview = (ImageView)findViewById(R.id.stickerPreview);
+
+
+        et.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(popup.isShowing())
+                    popup.dismiss();
+            }
+        });
 
         popup.setSizeForSoftKeyboard();
         popup.setOnEmojiClickedListener(new EmojiGridView.OnEmojiClickedListener() {

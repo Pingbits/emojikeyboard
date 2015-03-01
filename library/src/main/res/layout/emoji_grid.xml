@@ -2,9 +2,11 @@
     android:id="@+id/emoji_gridView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:columnWidth="40dip"
+    android:columnWidth="40dp"
     android:overScrollMode="never"
-    android:horizontalSpacing="2dip"
+    android:horizontalSpacing="18dp"
     android:numColumns="auto_fit"
     android:scrollbars="vertical"
-    android:verticalSpacing="2dip" />
+    android:paddingLeft="18dp"
+    android:paddingTop="18dp"
+    android:verticalSpacing="18dp" />

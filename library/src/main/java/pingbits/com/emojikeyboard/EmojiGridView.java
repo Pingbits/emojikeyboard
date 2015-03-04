@@ -79,12 +79,12 @@ public class EmojiGridView {
         recentManager = new RecentManager(context);
         mData = recentManager.getRecents();
         mAdapter = new EmojiAdapter(context, recentManager.getRecents());
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mAdapter.setListener(new EmojiAdapter.EmojiItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+            public void emojiClicked(int position) {
                 if (mEmojiconPopup.onEmojiClickedListener != null) {
                     mEmojiconPopup.onEmojiClickedListener.onEmojiconClicked(mData[position]);
+                    mEmojiconPopup.recents.addToRecents(mData[position]);
                 }
             }
         });
@@ -96,6 +96,14 @@ public class EmojiGridView {
             lastEmoji = emoji;
             mData = recentManager.addEmoji(emoji);
             mAdapter = new EmojiAdapter(context, mData);
+            mAdapter.setListener(new EmojiAdapter.EmojiItemClickListener() {
+                @Override
+                public void emojiClicked(int position) {
+                    if (mEmojiconPopup.onEmojiClickedListener != null) {
+                        mEmojiconPopup.onEmojiClickedListener.onEmojiconClicked(mData[position]);
+                    }
+                }
+            });
             gridView.setAdapter(mAdapter);
         }
 

@@ -41,6 +41,7 @@ public class EmojiPopup extends PopupWindow {
     public EmojiGridView recents;
     public StickerManager stickerManager;
     public List<String> stickerURL;
+    public EmojiEditText et;
 
     private int keyBoardHeight = 0;
     private Boolean pendingOpen = false;
@@ -53,10 +54,11 @@ public class EmojiPopup extends PopupWindow {
 
     public OnSoftKeyboardOpenCloseListener onSoftKeyboardOpenCloseListener;
 
-    public EmojiPopup(Context context, View root,int[] screenSize) {
+    public EmojiPopup(Context context, View root, EmojiEditText et, int[] screenSize) {
         super(context);
         rootView = root;
         mContext = context;
+        this.et = et;
         setContentView(emojiView());
         setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         this.screenWidth = screenSize[0];
@@ -211,7 +213,7 @@ public class EmojiPopup extends PopupWindow {
         pendingOpen = true;
         InputMethodManager imm = (InputMethodManager)mContext.getSystemService(
                 Context.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(rootView,0);
+        imm.showSoftInput(et,0);
     }
 
     public interface OnBackspaceClickedListener {

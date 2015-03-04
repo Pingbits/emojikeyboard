@@ -7,8 +7,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
-import com.squareup.picasso.Picasso;
-
 import pingbits.com.emojikeyboard.EmojiManager;
 import pingbits.com.emojikeyboard.R;
 import pingbits.com.emojikeyboard.objects.Emoji;
@@ -21,6 +19,8 @@ public class EmojiAdapter extends BaseAdapter {
     public LayoutInflater inflater;
     public Context ctx;
     public Emoji[] emojis;
+    public EmojiItemClickListener emojiItemClickListener;
+
     public EmojiAdapter(Context context, Emoji[] mData) {
         ctx = context;
         inflater = LayoutInflater.from(ctx);
@@ -43,7 +43,7 @@ public class EmojiAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if(convertView == null){
             convertView = inflater.inflate(R.layout.item_emoji_grid,null,false);
@@ -52,8 +52,17 @@ public class EmojiAdapter extends BaseAdapter {
         } else{
             holder = (ViewHolder)convertView.getTag();
         }
-//        holder.emojiIcon.setImageResource(EmojiManager.sEmojisMap.get(emojis[position].codepoint));
-        Picasso.with(ctx).load(EmojiManager.sEmojisMap.get(emojis[position].codepoint)).into(holder.emojiIcon);
+        holder.emojiIcon.setImageResource(EmojiManager.sEmojisMap.get(emojis[position].codepoint));
+
+        //!!!!!!!!!!!!!!!!!!!    Do not lazy load images as it takes time to load   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//        Picasso.with(ctx).load(EmojiManager.sEmojisMap.get(emojis[position].codepoint)).into(holder.emojiIcon);
+
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                emojiItemClickListener.emojiClicked(position);
+            }
+        });
         return convertView;
     }
 
@@ -63,4 +72,14 @@ public class EmojiAdapter extends BaseAdapter {
             emojiIcon = (ImageView)view.findViewById(R.id.emoji_icon);
         }
     }
+
+    public void setListener(EmojiItemClickListener emojiItemClickListener){
+        this.emojiItemClickListener = emojiItemClickListener;
+    }
+
+
+    public interface EmojiItemClickListener{
+        public void emojiClicked(int position);
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.pingbits.emojitest;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
@@ -9,6 +10,7 @@ import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -23,6 +25,8 @@ import pingbits.com.emojikeyboard.objects.Emoji;
 
 public class MainActivity extends ActionBarActivity {
 
+
+    public boolean isKeyboardOpenedOnce= false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +74,14 @@ public class MainActivity extends ActionBarActivity {
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                popup.showAtBottom();
+                if(isKeyboardOpenedOnce)
+                    popup.showAtBottom();
+                else{
+                    popup.openPending();
+                    InputMethodManager imm = (InputMethodManager)getSystemService(
+                            Context.INPUT_METHOD_SERVICE);
+                    imm.showSoftInput(et,0);
+                }
             }
         });
         up.setOnClickListener(new View.OnClickListener() {
@@ -85,7 +96,7 @@ public class MainActivity extends ActionBarActivity {
 
             @Override
             public void onKeyboardOpen(int keyBoardHeight) {
-
+                isKeyboardOpenedOnce = true;
             }
 
             @Override

@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 
@@ -44,6 +45,7 @@ public class EmojiPopup extends PopupWindow {
     private int keyBoardHeight = 0;
     private Boolean pendingOpen = false;
     private Boolean isOpened = false;
+    private Boolean hasOpenedOnce = false;
 
 
     public int screenHeight=0;
@@ -134,7 +136,10 @@ public class EmojiPopup extends PopupWindow {
     }
 
     public void showAtBottom(){
-        showAtLocation(rootView, Gravity.BOTTOM, 0, 0);
+        if(hasOpenedOnce)
+            showAtLocation(rootView, Gravity.BOTTOM, 0, 0);
+        else
+            openPending();
     }
 
     /**
@@ -164,7 +169,7 @@ public class EmojiPopup extends PopupWindow {
                 }
                 if (heightDifference > 100) {
                     keyBoardHeight = heightDifference;
-
+                    hasOpenedOnce=true;
                     setSize(WindowManager.LayoutParams.MATCH_PARENT, keyBoardHeight);
                     if(isOpened == false){
                         if(onSoftKeyboardOpenCloseListener!=null)
@@ -200,6 +205,13 @@ public class EmojiPopup extends PopupWindow {
      */
     public void setOnBackspaceClickedListener(OnBackspaceClickedListener listener){
         this.onBackspaceClickedListener = listener;
+    }
+
+    public void openPending() {
+        pendingOpen = true;
+        InputMethodManager imm = (InputMethodManager)mContext.getSystemService(
+                Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(rootView,0);
     }
 
     public interface OnBackspaceClickedListener {

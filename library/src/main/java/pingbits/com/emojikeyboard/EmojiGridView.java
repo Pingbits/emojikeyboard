@@ -109,10 +109,9 @@ public class EmojiGridView {
         mData = EmojisData.DATA;
 
         EmojiAdapter mAdapter = new EmojiAdapter(context, mData);
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mAdapter.setListener(new EmojiAdapter.EmojiItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+            public void emojiClicked(int position) {
                 if (mEmojiconPopup.onEmojiClickedListener != null) {
                     mEmojiconPopup.onEmojiClickedListener.onEmojiconClicked(mData[position]);
                     mEmojiconPopup.recents.addToRecents(mData[position]);

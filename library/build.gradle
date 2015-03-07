@@ -25,3 +25,5 @@ dependencies {
     compile 'it.sephiroth.android.library.horizontallistview:hlistview:1.2.2'
     compile 'com.github.lzyzsd:circleprogress:1.0.1@aar'
 }
+
+apply from: '../maven_build.gradle'

@@ -39,3 +39,4 @@ Thumbs.db
 .gradle
 build/
 app/obj/
+gradle.properties
